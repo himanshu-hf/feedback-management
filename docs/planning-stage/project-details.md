@@ -72,7 +72,7 @@ Using the APIs, build a dashboard to provide insights into customer feedback.
 
 ---
 
-NOTE: From here onwards it's our ideas.
+NOTE: From here onwards it's my ideas.
       Hence these aren't must to implement.
 
 ### 4. Integration Capabilities

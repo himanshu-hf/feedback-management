@@ -1,0 +1,112 @@
+# --- Global ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.swn
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# --- Python ---
+*.py[cod]
+__pycache__/
+.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+*.egg-info/
+.eggs/
+*.db
+*.sqlite3
+*.pyo
+*.pyd
+*.bak
+*.log
+
+# --- Django ---
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# --- Frontend (React + Vite) ---
+node_modules/
+dist/
+dist-ssr/
+.build/
+*.local
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/.env
+frontend/.env.*
+frontend/.eslintcache
+manifest.json
+
+# --- Logs ---
+logs/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Docker ---
+docker-compose.override.yml
+docker-compose.prod.yml
+**/.dockerignore
+
+# --- Editor / IDE ---
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# --- Tooling / CI / Cache ---
+.cache/
+.pytest_cache/
+__pypackages__/
+htmlcov/
+.coverage*
+coverage.xml
+.nox/
+build/
+dist/
+uv.lock
+
+# --- Backend ---
+backend/__pycache__/
+backend/db.sqlite3
+backend/media/
+backend/staticfiles/
+backend/local_settings.py
+backend/.env
+backend/.env.*
+
+# --- Docs ---
+docs/**/.DS_Store
+docs/**/Thumbs.db
+
+# --- Kubernetes configs (if any) ---
+*.kubeconfig
+
+# --- Project files to ALWAYS include ---
+!.env.example
+!docker-compose.yml
+!frontend/Dockerfile
+!backend/Dockerfile
+!.gitignore
+!README.md
