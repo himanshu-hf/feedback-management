@@ -18,13 +18,12 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     env_file: backend/.env
-    environment:
-      - DJANGO_ENV=dev
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
+    entrypoint: ["sh", "backend/entrypoint.sh"]
 
   frontend:
     build:
