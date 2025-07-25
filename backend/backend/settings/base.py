@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-load_dotenv(BASE_DIR / "backend/.env")
+load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
@@ -51,8 +51,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
+# For future migration to Postgres
+# DATABASES = {
+#     "default": dj_database_url.parse(os.getenv("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/postgres"))
+# }
 DATABASES = {
-    "default": dj_database_url.parse(os.getenv("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/postgres"))
+    "default": dj_database_url.parse(
+        os.getenv("DATABASE_URL", "sqlite:///db.sqlite3")
+    )
 }
 
 AUTH_USER_MODEL = "feedback_app.User"
@@ -79,3 +85,12 @@ VITE_DEV_SERVER_PORT = int(os.getenv("VITE_DEV_SERVER_PORT", 5173))
 VITE_DEV_MODE = DEBUG
 VITE_APP_DIR = BASE_DIR / "frontend"
 VITE_STATIC_DIR = BASE_DIR / "frontend" / "dist"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}
