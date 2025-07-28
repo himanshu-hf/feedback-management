@@ -17,7 +17,6 @@ jobs:
       - run: uv venv .venv
         working-directory: backend
       - run: uv run nox -s lint
-        working-directory: backend
 
   format:
     runs-on: ubuntu-latest
@@ -29,4 +28,3 @@ jobs:
       - run: uv venv .venv
         working-directory: backend
       - run: uv run nox -s format
-        working-directory: backend
