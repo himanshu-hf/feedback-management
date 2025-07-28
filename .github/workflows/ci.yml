@@ -1,0 +1,30 @@
+name: Backend Lint & Format
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --all-extras
+        working-directory: backend
+      - run: uv venv .venv
+        working-directory: backend
+      - run: uv run nox -s lint
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --all-extras
+        working-directory: backend
+      - run: uv venv .venv
+        working-directory: backend
+      - run: uv run nox -s format

@@ -1,7 +1,9 @@
 [project]
-name = "feedback"
+name = "feedback-management"
 version = "0.1.0"
-description = "Add your description here"
+description = "A feedback management system."
+authors = ["Your Name <your.email@example.com>"]
+license = "MIT"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -18,3 +20,37 @@ dependencies = [
     "python-dotenv>=1.1.1",
     "ruff>=0.12.4",
 ]
+[tool.black]
+line-length = 88
+target-version = ['py311']
+exclude = '''
+(
+    ^/.nox/
+    | ^/__pycache__/
+    | ^/.ruff_cache/
+    | ^/backend/staticfiles/
+    | ^/backend/db.sqlite3
+    | ^/frontend/dist/
+    | ^/frontend/node_modules/
+    | ^/backend/feedback_app/serializers_new.py
+    | ^/backend/feedback_app/serializers_old.py
+)
+'''
+
+[tool.ruff]
+line-length = 88
+exclude = [
+    ".nox",
+    "__pycache__",
+    ".ruff_cache",
+    "backend/staticfiles",
+    "backend/db.sqlite3",
+    "frontend/dist",
+    "frontend/node_modules",
+    "backend/feedback_app/serializers_new.py",
+    "backend/feedback_app/serializers_old.py",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E501", "F403"]
