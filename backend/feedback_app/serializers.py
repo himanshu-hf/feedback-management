@@ -8,19 +8,28 @@ from .models import User, Board, Tag, Feedback, Comment
 
 class UserSerializer(serializers.ModelSerializer):
     """Simple User serializer"""
+
     password_confirm = serializers.CharField(write_only=True, required=False)
     full_name = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = User
         fields = (
-            'id', 'username', 'email', 'first_name', 'last_name', 
-            'role', 'password', 'password_confirm', 'full_name',
-            'date_joined', 'is_active'
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "role",
+            "password",
+            "password_confirm",
+            "full_name",
+            "date_joined",
+            "is_active",
         )
         extra_kwargs = {
-            'password': {'write_only': True},
-            'date_joined': {'read_only': True},
+            "password": {"write_only": True},
+            "date_joined": {"read_only": True},
         }
 
     def get_full_name(self, obj):
@@ -31,47 +40,48 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         """Validate password confirmation"""
-        if 'password' in attrs:
-            password = attrs['password']
-            password_confirm = attrs.pop('password_confirm', None)
-            
+        if "password" in attrs:
+            password = attrs["password"]
+            password_confirm = attrs.pop("password_confirm", None)
+
             if password_confirm and password != password_confirm:
-                raise serializers.ValidationError({
-                    'password_confirm': 'Passwords do not match.'
-                })
-            
+                raise serializers.ValidationError(
+                    {"password_confirm": "Passwords do not match."}
+                )
+
             # Validate password strength
             try:
                 validate_password(password)
             except DjangoValidationError as e:
-                raise serializers.ValidationError({'password': list(e.messages)})
-        
+                raise serializers.ValidationError({"password": list(e.messages)})
+
         return attrs
 
     def create(self, validated_data):
         """Create user with hashed password"""
-        validated_data.pop('password_confirm', None)
-        if 'password' in validated_data:
-            validated_data['password'] = make_password(validated_data['password'])
+        validated_data.pop("password_confirm", None)
+        if "password" in validated_data:
+            validated_data["password"] = make_password(validated_data["password"])
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
         """Update user with hashed password"""
-        validated_data.pop('password_confirm', None)
-        if 'password' in validated_data:
-            validated_data['password'] = make_password(validated_data['password'])
+        validated_data.pop("password_confirm", None)
+        if "password" in validated_data:
+            validated_data["password"] = make_password(validated_data["password"])
         return super().update(instance, validated_data)
 
 
 class BoardSerializer(serializers.ModelSerializer):
     """Simple Board serializer"""
+
     member_count = serializers.SerializerMethodField()
     feedback_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Board
-        fields = '__all__'
-        read_only_fields = ('created_at', 'updated_at')
+        fields = "__all__"
+        read_only_fields = ("created_at", "updated_at")
 
     def get_member_count(self, obj):
         """Get number of board members"""
@@ -90,10 +100,10 @@ class BoardSerializer(serializers.ModelSerializer):
 
 class TagSerializer(serializers.ModelSerializer):
     """Simple Tag serializer"""
-    
+
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = "__all__"
 
     def validate_name(self, value):
         """Validate and normalize tag name"""
@@ -104,15 +114,16 @@ class TagSerializer(serializers.ModelSerializer):
 
 class FeedbackSerializer(serializers.ModelSerializer):
     """Simple Feedback serializer"""
+
     author_name = serializers.SerializerMethodField()
     board_name = serializers.SerializerMethodField()
     upvote_count = serializers.SerializerMethodField()
     comment_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Feedback
-        fields = '__all__'
-        read_only_fields = ('author', 'created_at', 'updated_at')
+        fields = "__all__"
+        read_only_fields = ("author", "created_at", "updated_at")
 
     def get_author_name(self, obj):
         """Get author's name"""
@@ -147,17 +158,17 @@ class FeedbackSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """Create feedback and handle tags"""
         # Handle tags from request data
-        request = self.context.get('request')
+        request = self.context.get("request")
         tags_data = []
-        if request and 'tags' in request.data:
-            tags_data = request.data.get('tags', [])
-        
+        if request and "tags" in request.data:
+            tags_data = request.data.get("tags", [])
+
         # Remove tags from validated_data if present
-        validated_data.pop('tags', None)
-        
+        validated_data.pop("tags", None)
+
         # Create feedback
         feedback = super().create(validated_data)
-        
+
         # Handle tags
         if tags_data:
             for tag_name in tags_data:
@@ -166,18 +177,19 @@ class FeedbackSerializer(serializers.ModelSerializer):
                         name=tag_name.strip().lower()
                     )
                     feedback.tags.add(tag)
-        
+
         return feedback
 
 
 class CommentSerializer(serializers.ModelSerializer):
     """Simple Comment serializer"""
+
     author_name = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Comment
-        fields = '__all__'
-        read_only_fields = ('author', 'created_at', 'updated_at')
+        fields = "__all__"
+        read_only_fields = ("author", "created_at", "updated_at")
 
     def get_author_name(self, obj):
         """Get author's name"""
