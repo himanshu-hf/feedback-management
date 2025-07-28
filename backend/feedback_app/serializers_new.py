@@ -79,7 +79,7 @@ class BoardSerializer(serializers.ModelSerializer):
 
     def get_feedback_count(self, obj):
         """Get number of feedback items"""
-        return obj.feedbacks.count()
+        return obj.feedback_set.count()
 
     def validate_name(self, value):
         """Validate board name is not empty"""
@@ -130,7 +130,7 @@ class FeedbackSerializer(serializers.ModelSerializer):
 
     def get_comment_count(self, obj):
         """Get number of comments"""
-        return obj.comments.count()
+        return obj.comment_set.count()
 
     def validate_title(self, value):
         """Validate title is not empty"""
